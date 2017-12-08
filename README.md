@@ -19,10 +19,10 @@ As of right now the configuration is fairly simple: You make a list of windows e
 **Example:**
 
 ```
-[~htop]
+[htop-]
 incantation = htop
 
-[~ncdu]
+[ncdu-]
 incantation = ncdu -x /
 ```
 
@@ -36,14 +36,14 @@ dmux start
 
 To launch a specific process:
 ```
-dmux.py start "~htop"
+dmux.py start htop-
 ```
 
 To restart:
 
 ```
 dmux restart
-dmux restart "~htop"
+dmux restart htop-
 ```
 
 To attach:

@@ -31,7 +31,7 @@ class DmuxWindow(object):
     name = attr.ib(validator=instance_of(str))
     incantation = attr.ib(validator=instance_of(str))
     tmux_window = attr.ib(None)
-    session: Session = get_session()
+    session = get_session()
 
     def _link(self):
         self.tmux_window = self.session.find_where({'window_name': self.name})
