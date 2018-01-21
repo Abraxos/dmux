@@ -81,17 +81,20 @@ def windows_or_die(windows, config):
 
 @click.group()
 def dmux():
+    """An extremely simplistic service management system that contains all services inside of a tmux session called 'dmux' where every service gets its own window and is run as a simple command line program. Dmux is driven by a configuration file for a given user in ~/.config/dmux/config.ini and can be run at startup by adding the following line to the user's crontab (crontab -e): @restart dmux start"""
     pass
 
 
 @dmux.command()
 def attach():
+    """Attaches the current shell to the tmux session named 'dmux'"""
     get_session().attach_session()
 
 
 @dmux.command()
 @click.argument('windows', nargs=-1)
 def start(windows):
+    """Starts either a particular service that exists in the configuration, or all of them."""
     config = load_config(CONFIG_PATH)
     windows_or_die(windows, config)
     if windows:
@@ -106,6 +109,7 @@ def start(windows):
 @dmux.command()
 @click.argument('windows', nargs=-1)
 def restart(windows):
+    """Restarts either a particular service that exists in the configuration, or all of them."""
     config = load_config(CONFIG_PATH)
     windows_or_die(windows, config)
     if windows:
@@ -115,6 +119,20 @@ def restart(windows):
         log.info("Restarting all windows")
         [DmuxWindow(w, i).restart() for w, i in config.items()]
     get_session().attach_session()
+
+
+@dmux.command()
+@click.argument('windows', nargs=-1)
+def stop(windows):
+    """Stops either a particular service that exists in the configuration, or all of them."""
+    config = load_config(CONFIG_PATH)
+    windows_or_die(windows, config)
+    if windows:
+        log.info("Stopping: {}".format(str(windows)))
+        [DmuxWindow(w, i).stop() for w, i in config.items() if w in windows]
+    else:
+        log.info("Stopping all windows")
+        [DmuxWindow(w, i).stop() for w, i in config.items()]
 
 
 if __name__ == '__main__':

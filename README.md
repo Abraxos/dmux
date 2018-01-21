@@ -10,6 +10,12 @@ Clone this repository (for this example: `~/repo/dmux`) and then execute the fol
 pip install ~/repo/dmux
 ```
 
+If you want it to start up all the processes when your computer boots up, add the following to your crontab: (`$ crontab -e`):
+
+```
+@reboot dmux start
+```
+
 ## Usage
 
 ### Configuration
